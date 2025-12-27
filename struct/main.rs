@@ -25,12 +25,16 @@ fn main() {
 
     user_clone.name = String::from("Jay's Clone");
 
+    // THIS PERFORMS A MOVE
     let mut user_spread: User = User {
         is_cool: true,
         ..user
     };
 
     user_spread.name = String::from("Jay McSpread");
+
+    // THIS WILL PANIC (after the move)
+    // println!("{}", user.name);
 
     println!("{}", user_clone.name);
     println!("{}", user_spread.name);
