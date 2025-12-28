@@ -2,6 +2,12 @@ struct Person {
     name: String,
     age: i32,
 }
+
+impl Person {
+    fn about_age(&self) {
+        print!("{}'s age is {}", self.name, self.age);
+    }
+}
 enum Relationship {
     Myself(Person),
     Friend(Person),
@@ -26,6 +32,33 @@ impl Relationship {
             }
         }
     }
+
+    fn relationship(&self) -> String {
+        match self {
+            Relationship::Family(_p) => String::from("family member"),
+            Relationship::Friend(_p) => String::from("friend"),
+            Relationship::Foe(_p) => String::from("sworn enemy"),
+            Relationship::Myself(_p) => String::from("myself"),
+        }
+    }
+
+    fn name(&self) -> String {
+        match self {
+            Relationship::Family(p) => p.name.clone(),
+            Relationship::Friend(p) => p.name.clone(),
+            Relationship::Foe(p) => p.name.clone(),
+            Relationship::Myself(p) => p.name.clone(),
+        }
+    }
+}
+
+fn loan_interest(relationship: Relationship) -> f32 {
+    match relationship {
+        Relationship::Family(_person) => 0.0,
+        Relationship::Friend(_person) => 3.0,
+        Relationship::Foe(_person) => 40.0,
+        Relationship::Myself(_person) => -5.0,
+    }
 }
 
 fn main() {
@@ -46,7 +79,7 @@ fn main() {
         age: 32,
     };
 
-    print!("{}'s age is {}", bob.name, bob.age);
+    chaz.about_age();
 
     let bestie = Relationship::Friend(bob);
     let brother = Relationship::Family(chaz);
@@ -58,4 +91,17 @@ fn main() {
     brother.talk_about();
     worst_enemy.talk_about();
     myself.talk_about();
+
+    println!(
+        "I would loan interest to my {} {} at {}%!",
+        bestie.relationship(),
+        bestie.name(),
+        loan_interest(bestie)
+    );
+    println!(
+        "I would loan interest to my {} {} at {}%!",
+        worst_enemy.relationship(),
+        worst_enemy.name(),
+        loan_interest(worst_enemy)
+    );
 }
